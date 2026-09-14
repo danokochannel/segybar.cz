@@ -281,31 +281,40 @@
       transform: translateY(-2px);
     }
 
-    /* Styl pro výrazné upozornění „Nově víkendový rozvoz“ */
-    .new-delivery-banner {
-      background: linear-gradient(135deg, #e65c00, #ff9933);
+    /* Extra velký a výrazný banner nad úvodem (aby to fakt bilo do očí) */
+    .mega-delivery-banner {
+      background: linear-gradient(135deg, #ff4500, #ff8c00, #ff4500);
+      background-size: 200% 200%;
       color: #ffffff;
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
+      padding: 1.5rem 1rem;
+      border-radius: 12px;
       text-align: center;
-      margin-bottom: 0.8rem;
-      box-shadow: 0 4px 15px rgba(230, 92, 0, 0.4);
-      border: 2px solid #ffffff;
-      animation: pulse-banner 2s infinite;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 6px 25px rgba(255, 69, 0, 0.6);
+      border: 3px solid #ffffff;
+      animation: gradient-shift 3s ease infinite, pulse-banner 1.5s infinite;
     }
 
-    .new-delivery-banner h3 {
-      font-size: 1.1rem;
+    .mega-delivery-banner h2 {
+      font-size: 1.4rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      -webkit-text-stroke: 1px #000000;
+      letter-spacing: 1.5px;
+      -webkit-text-stroke: 1.2px #000000;
       paint-order: stroke fill;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+      line-height: 1.3;
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @keyframes pulse-banner {
       0% { transform: scale(1); }
-      50% { transform: scale(1.01); }
+      50% { transform: scale(1.02); }
       100% { transform: scale(1); }
     }
 
@@ -558,12 +567,13 @@
 
       .hours-table td:last-child { -webkit-text-stroke: 1.5px #000000; }
       .map-link { font-size: 1rem; -webkit-text-stroke: 1.2px #000000; }
-      
-      .new-delivery-banner {
-        padding: 1rem;
+
+      .mega-delivery-banner {
+        padding: 2rem 1.5rem;
       }
-      .new-delivery-banner h3 {
-        font-size: 1.3rem;
+      .mega-delivery-banner h2 {
+        font-size: 2rem;
+        -webkit-text-stroke: 1.8px #000000;
       }
     }
   </style>
@@ -606,6 +616,11 @@
   </header>
 
   <main>
+    <!-- EXTRA VELKÝ A VÝRAZNÝ BANNER PŘED VŠÍM OSTATNÍM -->
+    <div class="mega-delivery-banner">
+      <h2>🚨 NOVĚ – VÍKENDOVÝ ROZVOZ JÍDEL! 🚨</h2>
+    </div>
+
     <section class="section-card" style="text-align: center;">
       <h2 class="section-title">Vítejte v Moto Segy Baru</h2>
       <p style="font-weight: 700;">Poctivá domácí kuchyně, skvělé pivo a příjemná atmosféra v Libhošti.</p>
@@ -619,11 +634,6 @@
     <section class="section-card">
       <h2 class="section-title">Informace k objednávkám</h2>
       
-      <!-- VÝRAZNÉ UPOZORNĚNÍ: NOVĚ VÍKENDOVÝ ROZVOZ -->
-      <div class="new-delivery-banner">
-        <h3>🚨 NOVĚ – VÍKENDOVÝ ROZVOZ JÍDEL! 🚨</h3>
-      </div>
-
       <div class="info-box">
         <h3>Platnost nabídky a podmínky</h3>
         <p>Nabídka platí od 2. října.</p>
