@@ -1,0 +1,1 @@
+# segybar.cz
