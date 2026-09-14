@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1.0">
+  <title>Jídelní a nápojový lístek - Moto Segy Bar</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@400;600;700;800&family=Rye&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #CD7F32;
+      --primary-hover: #B87333;
+      --text-dark: #111111;
+      --nav-bg: #1a1a1a;
+      --font-main: 'Montserrat', sans-serif;
+      --font-moto: 'Rye', serif;
+      --font-segy: 'Alex Brush', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      color: #ffffff;
+      background: url('Nabidka.jpg') no-repeat center center fixed;
+      background-size: cover;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--nav-bg);
+      border-bottom: 2px solid var(--primary-color);
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem; 
+      position: relative;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-logo img {
+      height: 55px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8));
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .brand-title {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .brand-moto {
+      font-family: var(--font-moto);
+      font-size: 1.4rem;
+      color: #f2e3c6;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 2px #000000, 0 0 6px rgba(0, 0, 0, 0.9);
+      text-transform: uppercase;
+    }
+
+    .brand-segy {
+      font-family: var(--font-segy);
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 3px #000000, 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .brand-logo:hover img {
+      transform: scale(1.05);
+      filter: drop-shadow(0px 0px 6px rgba(205, 127, 50, 0.8));
+    }
+
+    .brand-logo:hover .brand-title {
+      transform: scale(1.03);
+    }
+
+    .menu-toggle {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 0.9rem;
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      font-weight: 800;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      -webkit-text-stroke: 1px #000000;
+      paint-order: stroke fill;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .menu-toggle:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.03);
+    }
+
+    nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 1rem;
+      background-color: var(--nav-bg);
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+      overflow: hidden;
+      min-width: 180px;
+    }
+
+    nav.open {
+      display: block;
+    }
+
+    nav ul.nav-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem 0;
+    }
+
+    nav ul.nav-menu li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      padding: 0.7rem 1.2rem;
+      display: block;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+      -webkit-text-stroke: 1px #000000;
+      paint-order: stroke fill;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    nav ul.nav-menu li:last-child a {
+      border-bottom: none;
+    }
+
+    nav ul.nav-menu a:hover, nav ul.nav-menu a.active {
+      background-color: rgba(205, 127, 50, 0.2);
+      color: var(--primary-color);
+    }
+
+    .categories-bar {
+      position: sticky;
+      top: 71px;
+      background-color: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--primary-color);
+      z-index: 900;
+      padding: 0.6rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .categories-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) #222;
+    }
+
+    .categories-container::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .categories-container::-webkit-scrollbar-track {
+      background: #222;
+    }
+
+    .categories-container::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    .cat-btn {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid var(--primary-color);
+      padding: 0.4rem 0.9rem;
+      font-family: var(--font-main);
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      -webkit-text-stroke: 0.5px #000000;
+      paint-order: stroke fill;
+    }
+
+    .cat-btn:hover, .cat-btn.active {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 30px auto 0 auto;
+      padding: 0.8rem;
+    }
+
+    .section-card {
+      background-color: rgba(235, 215, 185, 0.58);
+      background-image: url('papir-textura.jpg');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-dark);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+      -webkit-text-stroke: 1.5px #000000;
+      paint-order: stroke fill;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    }
+
+    .section-note {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    .subsection-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #222;
+      margin: 1.2rem 0 0.6rem 0;
+      text-transform: uppercase;
+      border-left: 3px solid var(--primary-color);
+      padding-left: 0.5rem;
+    }
+
+    .menu-item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .menu-item {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .item-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .item-name {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #000000;
+    }
+
+    .item-allergens {
+      font-size: 0.75rem;
+      color: #000000;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .item-price {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #000000;
+      white-space: nowrap;
+    }
+
+    .grid-speciality {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .speciality-card {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      border: none;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.8rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .speciality-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .speciality-thumb {
+      width: 100%;
+      max-width: 320px;
+      height: 220px;
+      object-fit: contain;
+      background-color: transparent;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .speciality-thumb:hover {
+      transform: scale(1.02);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 8px;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+      -webkit-text-stroke: 1px #000;
+    }
+
+    .modal-close:hover {
+      color: var(--primary-color);
+    }
+
+    .btn-back {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 50px;
+      margin-top: 1rem;
+      box-shadow: 0 3px 10px rgba(205, 127, 50, 0.5);
+      transition: all 0.3s ease;
+      -webkit-text-stroke: 1.2px #000000;
+      paint-order: stroke fill;
+    }
+
+    .btn-back:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: var(--nav-bg);
+      text-align: center;
+      padding: 1.5rem 0.8rem;
+      color: #888888;
+      font-size: 0.78rem;
+      margin-top: 2rem;
+      border-top: 2px solid var(--primary-color);
+    }
+
+    @media (min-width: 768px) {
+      .header-container { padding: 0.8rem 2rem; }
+      .brand-logo img { height: 75px; }
+      .brand-moto { font-size: 2.2rem; letter-spacing: 3px; }
+      .brand-segy { font-size: 3.4rem; }
+      .menu-toggle { padding: 0.7rem 1.2rem; font-size: 1.1rem; -webkit-text-stroke: 1.2px #000000; }
+      nav { right: 2rem; min-width: 220px; }
+      nav ul.nav-menu li a { font-size: 1.1rem; padding: 0.8rem 1.5rem; }
+      .categories-bar { top: 93px; }
+      main { margin-top: 40px; padding: 1.5rem; }
+      .section-card { padding: 2rem; margin-bottom: 2rem; }
+      .section-title { font-size: 1.8rem; -webkit-text-stroke: 2.5px #000000; }
+      .item-name { font-size: 1.1rem; }
+      .item-price { font-size: 1.15rem; }
+      .grid-speciality { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .speciality-thumb { height: 240px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <header>
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="brand-logo" title="Úvodní stránka">
+          <img src="IMG_20260722_143711_306.jpg" alt="Moto Segy Bar Logo">
+          <span class="brand-title">
+            <span class="brand-moto">MOTO</span>
+            <span class="brand-segy">Segy Bar</span>
+          </span>
+        </a>
+      </div>
+      
+      <button class="menu-toggle" id="menuBtn">☰ MENU</button>
+
+      <nav id="dropdownNav">
+        <ul class="nav-menu">
+          <li><a href="index.html">Úvod</a></li>
+          <li><a href="jidelni-listek.html" class="active">Nabídka</a></li>
+          <li><a href="index.html#akce">Akce</a></li>
+          <li><a href="index.html#oteviracka">Otevírací doba</a></li>
+          <li><a href="index.html#socialni-siete">Sociální sítě</a></li>
+          <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="categories-bar">
+    <div class="categories-container" id="catSlider">
+      <a href="#info" class="cat-btn">ℹ️ Info</a>
+      <a href="#polevky" class="cat-btn">🥣 Polévky</a>
+      <a href="#stala-nabidka" class="cat-btn">🍔 Stálá nabídka</a>
+      <a href="#speciality" class="cat-btn">🔥 Speciality</a>
+      <a href="#zakusky" class="cat-btn">🍰 Zákusky</a>
+      <a href="#nealko" class="cat-btn">🥤 Nealko nápoje</a>
+      <a href="#kavy" class="cat-btn">☕ Kávy</a>
+    </div>
+  </div>
+
+  <main>
+
+    <section id="info" class="section-card">
+      <h2 class="section-title">ℹ️ Informace k objednávkám</h2>
+      <div class="menu-item-list">
+        <div class="menu-item" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; background: rgba(0, 0, 0, 0.05);">
+          <div style="font-weight: 800; font-size: 1.05rem; color: #000000;">Platnost nabídky a podmínky</div>
+          <div style="font-size: 0.95rem; color: #000000;">Nabídka platí od 2. října.</div>
+          <div style="font-size: 0.95rem; color: #000000;">Minimální objednávka je 500 Kč.</div>
+          <div style="font-size: 0.95rem; color: #000000; font-weight: 700;">Objednávka nad 1000 Kč: doprava do 10 km zdarma.</div>
+        </div>
+        <div class="menu-item" style="background: rgba(0, 0, 0, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border-left: 4px solid var(--primary-color); display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem;">
+          <div class="item-name" style="color: #000000;">Objednávky – rozvoz jídel (Pá–Ne: 10:30–19:30)</div>
+          <div class="item-name" style="color: #000000; font-weight: 800; margin-top: 0.2rem;">Telefon: <a href="tel:776620440" style="color: #000000; text-decoration: underline;">776 620 440</a></div>
+        </div>
+        <div class="menu-item" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; background: rgba(0, 0, 0, 0.05);">
+          <div style="font-weight: 800; font-size: 1.05rem; color: #000000;">Rozvoz a doprava</div>
+          <div style="font-size: 0.95rem; color: #000000;">Ceník dopravy dle vzdálenosti:</div>
+          <div style="font-size: 0.90rem; color: #000000; padding-left: 0.5rem; display: flex; flex-direction: column; gap: 0.2rem; width: 100%;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 0.2rem;"><span>0–5 km:</span><strong>49 Kč</strong></div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 0.2rem;"><span>5–10 km:</span><strong>69 Kč</strong></div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 0.2rem;"><span>10–15 km:</span><strong>99 Kč</strong></div>
+            <div style="display: flex; justify-content: space-between; padding-top: 0.1rem;"><span>15+ km:</span><strong>podle domluvy</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="polevky" class="section-card">
+      <h2 class="section-title">🥣 Polévky</h2>
+      <div class="section-note">(Kompletní přehled polévek – nabídka se každý den střídá a může být jiná. Více informací o aktuální nabídce na daný den najdete na našem Instagramu nebo Facebooku.)</div>
+      <div class="menu-item-list">
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Dršťková</div>
+            <div class="item-allergens">alergeny: 1, 9</div>
+          </div>
+          <div class="item-price">80 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Valašská kyselice</div>
+            <div class="item-allergens">alergeny: 1, 7</div>
+          </div>
+          <div class="item-price">80 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Kulajda</div>
+            <div class="item-allergens">alergeny: 1, 3, 7</div>
+          </div>
+          <div class="item-price">80 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Čočková s klobáskou</div>
+            <div class="item-allergens">alergeny: 1</div>
+          </div>
+          <div class="item-price">60 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Fazolová s uzeným</div>
+            <div class="item-allergens">alergeny: 1</div>
+          </div>
+          <div class="item-price">60 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Gulášová</div>
+            <div class="item-allergens">alergeny: 1</div>
+          </div>
+          <div class="item-price">80 Kč</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stala-nabidka" class="section-card">
+      <h2 class="section-title">🍔 Stálá nabídka</h2>
+      <div class="menu-item-list">
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Kuřecí mini řízečky s hranolkami</div>
+            <div class="item-allergens">alergeny: 1, 3, 7</div>
+          </div>
+          <div class="item-price">165 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Kuřecí stripsy s hranolkami</div>
+            <div class="item-allergens">alergeny: 1, 3, 7</div>
+          </div>
+          <div class="item-price">165 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Smažený sýr s hranolkami</div>
+            <div class="item-allergens">alergeny: 1, 3, 7</div>
+          </div>
+          <div class="item-price">160 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Grilované koleno</div>
+            <div class="item-allergens">alergeny: 1, 10</div>
+          </div>
+          <div class="item-price">260 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Grilovaná klobása</div>
+            <div class="item-allergens">alergeny: 1, 10</div>
+          </div>
+          <div class="item-price">130 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Grilovaná žebra</div>
+            <div class="item-allergens">alergeny: 1, 6, 10</div>
+          </div>
+          <div class="item-price">240 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Topinky s tvarůžkovým tatarákem</div>
+            <div class="item-allergens">alergeny: 1, 3, 7</div>
+          </div>
+          <div class="item-price">80 Kč</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="speciality" class="section-card">
+      <h2 class="section-title">🔥 Speciality</h2>
+      
+      <div class="grid-speciality">
+        <!-- Zapečené tvarůžky v těstě -->
+        <div class="speciality-card">
+          <img src="Tvarůžky.jpg" alt="Zapečené tvarůžky s cibulkou v pizza těstě" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečené tvarůžky v těstě</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">150 Kč</span>
+          </div>
+        </div>
+
+        <!-- Hermelíny -->
+        <div class="speciality-card">
+          <img src="Klasik.jpg" alt="Zapečený hermelín Klasik" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Klasik</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="Cibulak.jpg" alt="Zapečený hermelín Cibulák" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Cibulák</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="Pikant.jpg" alt="Zapečený hermelín Pikant" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Pikant</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="Pepřák.jpg" alt="Zapečený hermelín Pepřák" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Pepřák</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="Rajčatový.jpg" alt="Zapečený hermelín Rajčátkový" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Rajčátkový</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="Olivový.jpg" alt="Zapečený hermelín Olivový" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Olivový</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
+            </div>
+            <span class="item-price">130 Kč</span>
+          </div>
+        </div>
+        
+        <!-- Trhaná masa -->
+        <div class="speciality-card">
+          <img src="T.klasik.jpg" alt="Trhané vepřové Klasik" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové Klasik</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="T.zelený pepř.jpg" alt="Trhané vepřové se zeleným pepřem" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové se zeleným pepřem</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="T.slaninový.jpg" alt="Zapečené trhané vepřové slaninové" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové slaninové</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="T.cibulový.jpg" alt="Zapečené trhané vepřové cibulové" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové cibulové</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="T.olivový.jpg" alt="Zapečené trhané vepřové olivové" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové olivové</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="T.pikant.jpg" alt="Zapečené trhané vepřové pikant" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové pikant</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
+            </div>
+            <span class="item-price">160 Kč</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="zakusky" class="section-card">
+      <h2 class="section-title">🍰 Zákusky</h2>
+      <div class="grid-speciality">
+        <div class="speciality-card">
+          <img src="větrník klasik.jpg" alt="Klasický větrník" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Klasický větrník (Vanilka & Karamel)</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7</span>
+            </div>
+            <span class="item-price">70 Kč</span>
+          </div>
+        </div>
+        <div class="speciality-card">
+          <img src="větrník pistacie.jpg" alt="Pistáciový větrník" class="speciality-thumb" onclick="openModal(this.src)">
+          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+            <div style="text-align: left;">
+              <span style="font-weight: 800; color: #000000; display: block;">Pistáciový větrník</span>
+              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7, 8</span>
+            </div>
+            <span class="item-price">75 Kč</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nealko" class="section-card">
+      <h2 class="section-title">🥤 Nealko nápoje</h2>
+      <h3 class="subsection-title">nápoje</h3>
+      <div class="menu-item-list">
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Kofola</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Malinovka</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Pepsi</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Pepsi Zero</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Mattoni Imuno</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Mattoni Mojito</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Birell stylu IPA</div>
+            <div class="item-allergens">alergeny: 1</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Litovel černý citrón</div>
+            <div class="item-allergens">alergeny: 1</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Birell Višeň & Ostružina</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Birell Pomelo & Grep</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Voda (perlivá / neperlivá)</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">30 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Ledové čaje</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Tonic</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">45 Kč</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kavy" class="section-card">
+      <h2 class="section-title">☕ Kávy</h2>
+      <div class="menu-item-list">
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Espresso</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">50 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Lungo</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">50 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Americano</div>
+            <div class="item-allergens">alergeny: bez alergenů</div>
+          </div>
+          <div class="item-price">50 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Latte macchiato</div>
+            <div class="item-allergens">alergeny: 7</div>
+          </div>
+          <div class="item-price">70 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Cappuccino</div>
+            <div class="item-allergens">alergeny: 7</div>
+          </div>
+          <div class="item-price">70 Kč</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <div class="item-name">Ledová káva</div>
+            <div class="item-allergens">alergeny: 7</div>
+          </div>
+          <div class="item-price">60 Kč</div>
+        </div>
+      </div>
+    </section>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="index.html" class="btn-back">⬅ Zpět na úvodní stránku</a>
+    </div>
+
+  </main>
+
+  <div class="modal" id="imageModal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <footer>
+    <p>© 2026 Moto Segy Bar — Poctivá domácí kuchyně & Hospoda. Všechna práva vyhrazena.</p>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownNav = document.getElementById('dropdownNav');
+    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownNav.classList.toggle('open'); });
+    document.addEventListener('click', (e) => { if (!dropdownNav.contains(e.target) && !menuBtn.contains(e.target)) { dropdownNav.classList.remove('open'); } });
+    dropdownNav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { dropdownNav.classList.remove('open'); }); });
+    function openModal(src) { const modal = document.getElementById('imageModal'); const modalImg = document.getElementById('modalImg'); modal.classList.add('open'); modalImg.src = src; }
+    function closeModal() { const modal = document.getElementById('imageModal'); modal.classList.remove('open'); }
+    const sections = document.querySelectorAll('main section');
+    const navLinks = document.querySelectorAll('.categories-container .cat-btn');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => { const sectionTop = section.offsetTop; if (pageYOffset >= (sectionTop - 150)) { current = section.getAttribute('id'); } });
+      navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href').includes(current)) { link.classList.add('active'); } });
+    });
+  </script>
+</body>
+</html>
