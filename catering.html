@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jídelní a nápojový lístek - Moto Segy Bar</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -276,107 +276,19 @@
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
     }
 
-    .section-note {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #444;
-      margin-bottom: 1rem;
-      font-style: italic;
-    }
-
-    .subsection-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #222;
-      margin: 1.2rem 0 0.6rem 0;
-      text-transform: uppercase;
-      border-left: 3px solid var(--primary-color);
-      padding-left: 0.5rem;
-    }
-
-    .menu-item-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .menu-item {
-      background: rgba(0, 0, 0, 0.05);
-      padding: 0.8rem 1rem;
-      border-radius: 6px;
-      border-left: 4px solid var(--primary-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .item-info {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
-    .item-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: #000000;
-    }
-
-    .item-allergens {
-      font-size: 0.75rem;
-      color: #000000;
-      font-style: italic;
-      font-weight: 600;
-    }
-
-    .item-price {
-      font-weight: 800;
-      font-size: 1rem;
-      color: #000000;
-      white-space: nowrap;
-    }
-
-    .grid-speciality {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .speciality-card {
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 8px;
-      border: none;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0.8rem;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.2s ease;
-    }
-
-    .speciality-card:hover {
-      transform: translateY(-3px);
-    }
-
-    .speciality-thumb {
+    /* Stylace pro vkládané obrázky jídelního lístku */
+    .responsive-menu-img {
       width: 100%;
-      max-width: 320px;
-      height: 220px;
-      object-fit: contain;
-      background-color: transparent;
-      border-radius: 6px;
-      border: none;
+      height: auto;
+      display: block;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       transition: transform 0.2s ease;
     }
 
-    .speciality-thumb:hover {
-      transform: scale(1.02);
+    .responsive-menu-img:hover {
+      transform: scale(1.01);
     }
 
     .modal {
@@ -423,28 +335,6 @@
       color: var(--primary-color);
     }
 
-    .btn-back {
-      display: inline-block;
-      background-color: var(--primary-color);
-      color: #ffffff;
-      padding: 0.7rem 1.4rem;
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 50px;
-      margin-top: 1rem;
-      box-shadow: 0 3px 10px rgba(205, 127, 50, 0.5);
-      transition: all 0.3s ease;
-      -webkit-text-stroke: 1.2px #000000;
-      paint-order: stroke fill;
-    }
-
-    .btn-back:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-2px);
-    }
-
     footer {
       background: var(--nav-bg);
       text-align: center;
@@ -467,10 +357,6 @@
       main { margin-top: 40px; padding: 1.5rem; }
       .section-card { padding: 2rem; margin-bottom: 2rem; }
       .section-title { font-size: 1.8rem; -webkit-text-stroke: 2.5px #000000; }
-      .item-name { font-size: 1.1rem; }
-      .item-price { font-size: 1.15rem; }
-      .grid-speciality { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-      .speciality-thumb { height: 240px; max-width: 100%; }
     }
   </style>
 </head>
@@ -493,10 +379,10 @@
       <nav id="dropdownNav">
         <ul class="nav-menu">
           <li><a href="index.html">Úvod</a></li>
-          <li><a href="menu.html" class="active">Menu</a></li>
+          <li><a href="jidelni-listek.html" class="active">Menu</a></li>
           <li><a href="index.html#akce">Akce</a></li>
           <li><a href="index.html#oteviracka">Otevírací doba</a></li>
-          <li><a href="index.html#socialni-siete">Sociální sítě</a></li>
+          <li><a href="index.html#socialni-site">Sociální sítě</a></li>
           <li><a href="index.html#kontakt">Kontakt</a></li>
         </ul>
       </nav>
@@ -505,9 +391,9 @@
 
   <div class="categories-bar">
     <div class="categories-container" id="catSlider">
-      <a href="#mísy a saláty" class="cat-btn">🥗 Mísy a Saláty</a>
-      <a href="#pečené speciality" class="cat-btn">🍗 Pečené a Grilované Speciality</a>
-      <a href="#tataraky" class="cat-btn">🥘 Tataráky, Rolády, Mini řízečky, Guláše</a>
+      <a href="#misy-a-salaty" class="cat-btn">🥗 Mísy a Saláty</a>
+      <a href="#pecene-speciality" class="cat-btn">🍗 Pečené a Grilované Speciality</a>
+      <a href="#tataraky" class="cat-btn">i🥘 Tataráky, Rolády, Mini řízečky, Guláše</a>
       <a href="#kanapky" class="cat-btn">🥪 Kanapky, Chlebíčky</a>
       <a href="#prilohy" class="cat-btn">🍟 Přílohy</a>
     </div>
@@ -520,29 +406,51 @@
       <p style="font-weight: 700; font-size:25px;">OBJEDNÁVKY CATERINGU MINIMÁLNĚ TÝDEN PŘEDEM.</p>
     </section>
 
-    <section id="mísy a saláty" class="section-card">
-        <img src="misy a salaty.jpg">
+    <!-- 1. Sekce: Mísy a saláty -->
+    <section id="misy-a-salaty" class="section-card">
+      <picture>
+        <source media="(min-width: 768px)" srcset="misy a salaty.jpg">
+        <img src="misy a salaty.jpg" alt="Mísy a Saláty" class="responsive-menu-img" onclick="openModal(this.currentSrc || this.src)">
+      </picture>
     </section>
 
-    <section id="pečené speciality" class="section-card">
-        <img src="pecene a grilovane.jpg">
-</section>
+    <!-- 2. Sekce: Pečené speciality -->
+    <section id="pecene-speciality" class="section-card">
+      <picture>
+        <source media="(min-width: 768px)" srcset="pecene a grilovane.jpg">
+        <img src="pecene a grilovane.jpg" alt="Pečené a grilované speciality" class="responsive-menu-img" onclick="openModal(this.currentSrc || this.src)">
+      </picture>
+    </section>
 
+    <!-- 3. Sekce: Tataráky -->
     <section id="tataraky" class="section-card">
-        <img src="tataraky.jpg">
+      <picture>
+        <source media="(min-width: 768px)" srcset="tataraky.jpg">
+        <img src="tataraky.jpg" alt="Tataráky, rolády, řízečky a guláše" class="responsive-menu-img" onclick="openModal(this.currentSrc || this.src)">
+      </picture>
     </section>
 
-        <section id="kanapky" class="section-card">
-        <img src="chlebicky.jpg">
+    <!-- 4. Sekce: Kanapky a chlebíčky -->
+    <section id="kanapky" class="section-card">
+      <picture>
+        <source media="(min-width: 768px)" srcset="chlebicky.jpg">
+        <img src="chlebicky.jpg" alt="Kanapky a chlebíčky" class="responsive-menu-img" onclick="openModal(this.currentSrc || this.src)">
+      </picture>
     </section>
 
-        <section id="prilohy" class="section-card">
-        <img src="prilohy.jpg">
+    <!-- 5. Sekce: Přílohy -->
+    <section id="prilohy" class="section-card">
+      <picture>
+        <source media="(min-width: 768px)" srcset="prilohy.jpg">
+        <img src="prilohy.jpg" alt="Přílohy" class="responsive-menu-img" onclick="openModal(this.currentSrc || this.src)">
+      </picture>
     </section>
+
+  </main>
 
   <div class="modal" id="imageModal" onclick="closeModal()">
     <span class="modal-close">&times;</span>
-    <img class="modal-content" id="modalImg">
+    <img class="modal-content" id="modalImg" alt="Zvětšený náhled">
   </div>
 
   <footer>
@@ -552,17 +460,53 @@
   <script>
     const menuBtn = document.getElementById('menuBtn');
     const dropdownNav = document.getElementById('dropdownNav');
-    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownNav.classList.toggle('open'); });
-    document.addEventListener('click', (e) => { if (!dropdownNav.contains(e.target) && !menuBtn.contains(e.target)) { dropdownNav.classList.remove('open'); } });
-    dropdownNav.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { dropdownNav.classList.remove('open'); }); });
-    function openModal(src) { const modal = document.getElementById('imageModal'); const modalImg = document.getElementById('modalImg'); modal.classList.add('open'); modalImg.src = src; }
-    function closeModal() { const modal = document.getElementById('imageModal'); modal.classList.remove('open'); }
+    
+    menuBtn.addEventListener('click', (e) => { 
+      e.stopPropagation(); 
+      dropdownNav.classList.toggle('open'); 
+    });
+    
+    document.addEventListener('click', (e) => { 
+      if (!dropdownNav.contains(e.target) && !menuBtn.contains(e.target)) { 
+        dropdownNav.classList.remove('open'); 
+      } 
+    });
+    
+    dropdownNav.querySelectorAll('a').forEach(link => { 
+      link.addEventListener('click', () => { 
+        dropdownNav.classList.remove('open'); 
+      }); 
+    });
+
+    function openModal(src) { 
+      const modal = document.getElementById('imageModal'); 
+      const modalImg = document.getElementById('modalImg'); 
+      modal.classList.add('open'); 
+      modalImg.src = src; 
+    }
+
+    function closeModal() { 
+      const modal = document.getElementById('imageModal'); 
+      modal.classList.remove('open'); 
+    }
+
     const sections = document.querySelectorAll('main section');
     const navLinks = document.querySelectorAll('.categories-container .cat-btn');
+    
     window.addEventListener('scroll', () => {
       let current = '';
-      sections.forEach(section => { const sectionTop = section.offsetTop; if (pageYOffset >= (sectionTop - 150)) { current = section.getAttribute('id'); } });
-      navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href').includes(current)) { link.classList.add('active'); } });
+      sections.forEach(section => { 
+        const sectionTop = section.offsetTop; 
+        if (pageYOffset >= (sectionTop - 150)) { 
+          current = section.getAttribute('id'); 
+        } 
+      });
+      navLinks.forEach(link => { 
+        link.classList.remove('active'); 
+        if (link.getAttribute('href').includes(current)) { 
+          link.classList.add('active'); 
+        } 
+      });
     });
   </script>
 </body>
