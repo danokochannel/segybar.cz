@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moto Segy Bar - Poctivá domácí kuchyně & Hospoda</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -240,6 +240,14 @@
       font-size: 0.88rem;
     }
 
+    /* Pomocná třída pro responzivní obrázky uvnitř karet */
+    .responsive-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
     .section-title {
       font-size: 1.2rem;
       font-weight: 800;
@@ -280,7 +288,6 @@
       transform: translateY(-2px);
     }
 
-    /* Styl pro vložení obrázku rozvozu */
     .delivery-img-container {
       width: 100%;
       margin-bottom: 1.2rem;
@@ -522,10 +529,10 @@
       <nav id="dropdownNav">
         <ul class="nav-menu">
           <li><a href="index.html" class="active">Úvod</a></li>
-          <li><a href="menu.html">Menu</a></li>
+          <li><a href="jidelni-listek.html">Menu</a></li>
           <li><a href="#akce">Akce</a></li>
           <li><a href="#oteviracka">Otevírací doba</a></li>
-          <li><a href="#socialni-siete">Sociální sítě</a></li>
+          <li><a href="#socialni-site">Sociální sítě</a></li>
           <li><a href="#kontakt">Kontakt</a></li>
         </ul>
       </nav>
@@ -533,14 +540,14 @@
   </header>
 
   <main>
-    <!-- VLOŽENÝ OBRÁZEK ROZVOZU MÍSTO TEXTU -->
     <div class="delivery-img-container">
+      <!-- Doporučujeme soubor přejmenovat bez diakritiky (např. objednavky.jpg) -->
       <img src="objednávky.jpg" alt="Víkendový rozvoz - Moto Segy Bar">
     </div>
 
-        <section class="section-card">
-          <img src="cukrovi.jpg">
-        </section>
+    <section class="section-card">
+      <img src="cukrovi.jpg" alt="Vánoční cukroví" class="responsive-img">
+    </section>
 
     <section class="section-card" style="text-align: center;">
       <h2 class="section-title">Vítejte v Moto Segy Baru</h2>
@@ -550,7 +557,7 @@
         <a href="jidelni-listek.html" class="btn-menu">📖 Zobrazit Kompletní Menu</a>
       </div>
 
-            <div class="menu-button-wrapper">
+      <div class="menu-button-wrapper">
         <a href="catering.html" class="btn-menu">📖 Zobrazit Catering</a>
       </div>
     </section>
@@ -559,7 +566,7 @@
       <h2 class="section-title">Chystané Akce</h2>
       <div class="events-grid">
         <div class="event-box">
-          17.10.2026- Benefiční akce pro Monču
+          17.10.2026 - Benefiční akce pro Monču
         </div>
       </div>
     </section>
@@ -585,13 +592,12 @@
       </div>
     </section>
 
-    <!-- SOCIÁLNÍ SÍTĚ -->
-    <section id="socialni-siete" class="section-card">
+    <section id="socialni-site" class="section-card">
       <h2 class="section-title">Sociální sítě</h2>
       <p style="margin-bottom: 0.8rem; font-weight: 600;">Sledujte nás online a podívejte se na aktuální fotky a novinky:</p>
       <div class="social-links">
-        <a href="https://www.facebook.com/share/1F5wTLvDXK/" target="_blank" class="social-btn">📘 Facebook</a>
-        <a href="https://www.instagram.com/segy_bar?igsh=MWZud2F1djJ6aXZibQ==" target="_blank" class="social-btn">📷 Instagram</a>
+        <a href="https://www.facebook.com/share/1F5wTLvDXK/" target="_blank" rel="noopener" class="social-btn">📘 Facebook</a>
+        <a href="https://www.instagram.com/segy_bar?igsh=MWZud2F1djJ6aXZibQ==" target="_blank" rel="noopener" class="social-btn">📷 Instagram</a>
       </div>
     </section>
 
@@ -601,10 +607,10 @@
         📍 <strong>Libhošť 526, 742 57, okres Nový Jičín</strong>
       </p>
       <p>
-        🗺️ <a href="https://mapy.cz/zakladni?q=Libho%C5%A1%C5%A5%20526" target="_blank" class="map-link">Zobrazit na Mapy.cz</a>
+        🗺️ <a href="https://mapy.cz/zakladni?q=Libho%C5%A1%C5%A5%20526" target="_blank" rel="noopener" class="map-link">Zobrazit na Mapy.cz</a>
       </p>
       <p>
-        📍 <a href="https://www.google.com/maps/search/?api=1&query=Libho%C5%A1%C5%A5+526" target="_blank" class="map-link">Zobrazit na Google Maps</a>
+        📍 <a href="https://www.google.com/maps/search/?api=1&query=Libho%C5%A1%C5%A5+526" target="_blank" rel="noopener" class="map-link">Zobrazit na Google Maps</a>
       </p>
     </section>
   </main>
