@@ -447,39 +447,100 @@
 
     /* Stylizace Admin okna */
     .admin-modal-card {
-      background: #222;
+      background: #1a1a1a;
       color: #fff;
       padding: 1.5rem;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 2px solid var(--primary-color);
-      max-width: 500px;
+      max-width: 600px;
       width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9);
     }
 
-    .admin-soup-row {
+    .admin-scroll-area {
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      margin: 0.8rem 0;
+      flex-grow: 1;
+    }
+
+    .admin-cat-group {
+      margin-bottom: 1.2rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.8rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary-color);
+    }
+
+    .admin-cat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .admin-cat-title {
+      font-weight: 800;
+      color: var(--primary-color);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    .admin-quick-btns button {
+      background: #333;
+      color: #ddd;
+      border: none;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 0.3rem;
+    }
+
+    .admin-quick-btns button:hover {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .admin-item-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #444;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .admin-item-row:last-child {
+      border-bottom: none;
     }
 
     .admin-btn {
       background: var(--primary-color);
       color: #fff;
       border: none;
-      padding: 0.6rem 1rem;
+      padding: 0.7rem 1rem;
       border-radius: 6px;
       cursor: pointer;
-      font-weight: bold;
-      margin-top: 1rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
       width: 100%;
+      transition: background 0.2s;
     }
 
     .admin-btn:hover {
       background: var(--primary-hover);
+    }
+
+    .admin-footer-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
     }
 
     footer {
@@ -497,15 +558,26 @@
       border: 1px dashed #555;
       color: #888;
       font-size: 0.75rem;
-      padding: 0.3rem 0.8rem;
+      padding: 0.35rem 0.9rem;
       border-radius: 4px;
       margin-top: 0.8rem;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
     .admin-trigger-btn:hover {
       color: var(--primary-color);
       border-color: var(--primary-color);
+    }
+
+    .empty-category-msg {
+      color: #222;
+      font-weight: 700;
+      font-style: italic;
+      padding: 0.5rem;
+      text-align: center;
+      background: rgba(0,0,0,0.05);
+      border-radius: 6px;
     }
 
     @media (min-width: 768px) {
@@ -602,579 +674,40 @@
     
     <section id="polevky" class="section-card">
       <h2 class="section-title">🥣 Dnešní polévky</h2>
-      <div class="section-note">(Kompletní přehled polévek na dnešní den. Více informací najdete na našem Instagramu nebo Facebooku.)</div>
-      <div class="menu-item-list" id="soupsDisplayList">
-        <!-- Zde se dynamicky načtou dnešní vybrané polévky -->
-      </div>
+      <div class="section-note">(Aktuální nabídka polévek na dnešní den. Více informací najdete na našem Instagramu nebo Facebooku.)</div>
+      <div class="menu-item-list" id="list-polevky"></div>
     </section>
 
     <section id="stala-nabidka" class="section-card">
       <h2 class="section-title">🍔 Stálá nabídka</h2>
-      
-      <div class="grid-speciality">
-        <!-- Kuřecí mini řízečky -->
-        <div class="speciality-card">
-          <img src="mini_kuřecí_řízečky.jpg" alt="Kuřecí mini řízečky s hranolkami" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Kuřecí mini řízečky s hranolkami</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7</span>
-            </div>
-            <span class="item-price">175 Kč</span>
-          </div>
-        </div>
-
-        <!-- Smažený sýr -->
-        <div class="speciality-card">
-          <img src="smazeny_syr.jpg" alt="Smažený sýr s hranolkami" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Smažený sýr s hranolkami</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7</span>
-            </div>
-            <span class="item-price">170 Kč</span>
-          </div>
-        </div>
-
-        <!-- Grilované koleno -->
-        <div class="speciality-card">
-          <img src="grilovane_koleno.jpg" alt="Grilované koleno" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Grilované koleno</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 10</span>
-            </div>
-            <span class="item-price">270 Kč</span>
-          </div>
-        </div>
-
-        <!-- Grilovaná žebra -->
-        <div class="speciality-card">
-          <img src="grilovane_žebra.jpg" alt="Grilovaná žebra" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Grilovaná žebra</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 6, 10</span>
-            </div>
-            <span class="item-price">250 Kč</span>
-          </div>
-        </div>
-
-        <!-- Topinky s tvarůžkovým tatarákem -->
-        <div class="speciality-card">
-          <img src="topinky_s_tvaruzkovym_tatarakem.jpg" alt="Topinky s tvarůžkovým tatarákem" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Topinky s tvarůžkovým tatarákem</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7</span>
-            </div>
-            <span class="item-price">90 Kč</span>
-          </div>
-        </div>
-
-        <!-- Hamburger Klasik -->
-        <div class="speciality-card">
-          <img src="hamburger_klasik.jpg" alt="Hamburger Klasik v domácí housce" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Hamburger Klasik v domácí housce</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny v housce: lepek, vejce, mléko</span>
-            </div>
-            <span class="item-price">145 Kč</span>
-          </div>
-        </div>
-
-        <!-- Hamburger se slaninou -->
-        <div class="speciality-card">
-          <img src="hamburger_se_slaninou.jpg" alt="Hamburger se slaninou v domácí housce" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Hamburger se slaninou v domácí housce</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny v housce: lepek, vejce, mléko</span>
-            </div>
-            <span class="item-price">155 Kč</span>
-          </div>
-        </div>
-
-        <!-- Cheeseburger Klasik -->
-        <div class="speciality-card">
-          <img src="cheeseburger_klasik.jpg" alt="Cheeseburger Klasik v domácí housce" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Cheeseburger Klasik v domácí housce</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny v housce: lepek, vejce, mléko</span>
-            </div>
-            <span class="item-price">175 Kč</span>
-          </div>
-        </div>
-
-        <!-- Cheeseburger se slaninou -->
-        <div class="speciality-card">
-          <img src="cheeseburger_se_slaninou.jpg" alt="Cheeseburger se slaninou v domácí housce" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Cheeseburger se slaninou v domácí housce</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny v housce: lepek, vejce, mléko</span>
-            </div>
-            <span class="item-price">185 Kč</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="menu-item-list" style="margin-top: 1.5rem;">
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Grilovaná klobása</div>
-            <div class="item-allergens">alergeny: 1, 10</div>
-          </div>
-          <div class="item-price">130 Kč</div>
-        </div>
-      </div>
-
+      <div class="grid-speciality" id="grid-stala-nabidka"></div>
+      <div class="menu-item-list" id="list-stala-nabidka" style="margin-top: 1.5rem;"></div>
     </section>
 
     <section id="omacky" class="section-card">
       <h2 class="section-title">🫙 Omáčky</h2>
-      <div class="menu-item-list">
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Tatarka</div>
-            <div class="item-allergens">alergeny: 3, 10</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Kečup</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Pepřový</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Česnekový</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Pikantní</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Francouzský</div>
-            <div class="item-allergens">alergeny: 3, 7</div>
-          </div>
-          <div class="item-price">10 Kč</div>
-        </div>
-      </div>
+      <div class="menu-item-list" id="list-omacky"></div>
     </section>
 
     <section id="speciality" class="section-card">
       <h2 class="section-title">🔥 Speciality</h2>
-      
-      <div class="grid-speciality">
-        <div class="speciality-card">
-          <img src="Tvarůžky.jpg" alt="Zapečené tvarůžky s cibulkou v pizza těstě" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené tvarůžky v těstě</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">149 Kč</span>
-          </div>
-        </div>
-        
-        <div class="speciality-card">
-          <img src="Tvarůžky-olivove.jpg" alt="Zapečené tvarůžky s olivami a cibulkou v pizza těstě" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené tvarůžky s olivami a cibulkou</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-
-        <div class="speciality-card">
-          <img src="Tvarůžky-slaninove.jpg" alt="Zapečené tvarůžky se slaninou a cibulkou v pizza těstě" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené tvarůžky se slaninou a cibulkou</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-
-        <div class="speciality-card">
-          <img src="Klasik.jpg" alt="Zapečený hermelín Klasik" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Klasik</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">149 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="Cibulak.jpg" alt="Zapečený hermelín Cibulák" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Cibulák</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="Pikant.jpg" alt="Zapečený hermelín Pikant" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Pikant</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="Pepřák.jpg" alt="Zapečený hermelín Pepřák" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Pepřák</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="Rajčatový.jpg" alt="Zapečený hermelín Rajčátkový" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Rajčátkový</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="Olivový.jpg" alt="Zapečený hermelín Olivový" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečený hermelín Olivový</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 7</span>
-            </div>
-            <span class="item-price">159 Kč</span>
-          </div>
-        </div>
-        
-        <div class="speciality-card">
-          <img src="T.klasik.jpg" alt="Trhané vepřové Klasik" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové Klasik</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">129 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.zelený pepř.jpg" alt="Trhané vepřové se zeleným pepřem" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové se zeleným pepřem</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.slaninový.jpg" alt="Zapečené trhané vepřové slaninové" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové slaninové</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.cibulový.jpg" alt="Zapečené trhané vepřové cibulové" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové cibulové</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.olivový.jpg" alt="Zapečené trhané vepřové olivové" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové olivové</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.pikant.jpg" alt="Zapečené trhané vepřové pikant" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zapečené trhané vepřové pikant</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.rajčátkový.jpg" alt="Trhané vepřové rajčátkové se sušenými rajčaty" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové rajčátkové (se sušenými rajčaty)</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">139 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.cheddar.jpg" alt="Trhané vepřové cheddar" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové cheddar</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">149 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="T.niva.jpg" alt="Trhané vepřové niva" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Trhané vepřové niva</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 7</span>
-            </div>
-            <span class="item-price">149 Kč</span>
-          </div>
-        </div>
-
-        <div class="speciality-card">
-          <img src="salat.jpg" alt="Zeleninový salát svěží a křupavý" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Zeleninový salát (150 g)</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">svěží a křupavý[cite: 6]</span>
-            </div>
-            <span class="item-price">70 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="hranolky-male.jpg" alt="Hranolky malé" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Hranolky malé (100 g)</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">horkovzdušné, bez smažení v oleji[cite: 4]</span>
-            </div>
-            <span class="item-price">30 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="hranolky-velke.jpg" alt="Hranolky velké" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Hranolky velké (200 g)</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">horkovzdušné, bez smažení v oleji[cite: 5]</span>
-            </div>
-            <span class="item-price">60 Kč</span>
-          </div>
-        </div>
-
-      </div>
+      <div class="grid-speciality" id="grid-speciality"></div>
     </section>
 
     <section id="zakusky" class="section-card">
       <h2 class="section-title">🍰 Zákusky</h2>
-      <div class="grid-speciality">
-        <div class="speciality-card">
-          <img src="větrník klasik.jpg" alt="Klasický větrník" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Klasický větrník (Vanilka & Karamel)</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7</span>
-            </div>
-            <span class="item-price">70 Kč</span>
-          </div>
-        </div>
-        <div class="speciality-card">
-          <img src="větrník pistacie.jpg" alt="Pistáciový větrník" class="speciality-thumb" onclick="openModal(this.src)">
-          <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
-            <div style="text-align: left;">
-              <span style="font-weight: 800; color: #000000; display: block;">Pistáciový větrník</span>
-              <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">alergeny: 1, 3, 7, 8</span>
-            </div>
-            <span class="item-price">75 Kč</span>
-          </div>
-        </div>
-      </div>
+      <div class="grid-speciality" id="grid-zakusky"></div>
     </section>
 
     <section id="nealko" class="section-card">
       <h2 class="section-title">🥤 Nealko nápoje</h2>
       <h3 class="subsection-title">nápoje</h3>
-      <div class="menu-item-list">
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Kofola</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Malinovka</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Pepsi</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Pepsi Zero</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Mattoni Imuno</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Mattoni Mojito</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Birell stylu IPA</div>
-            <div class="item-allergens">alergeny: 1</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Litovel černý citrón</div>
-            <div class="item-allergens">alergeny: 1</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Birell Višeň & Ostružina</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Birell Pomelo & Grep</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Voda (perlivá / neperlivá)</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">30 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Ledové čaje</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Tonic</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">45 Kč</div>
-        </div>
-      </div>
+      <div class="menu-item-list" id="list-nealko"></div>
     </section>
 
     <section id="kavy" class="section-card">
       <h2 class="section-title">☕ Kávy</h2>
-      <div class="menu-item-list">
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Espresso</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">50 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Lungo</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">50 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Americano</div>
-            <div class="item-allergens">alergeny: bez alergenů</div>
-          </div>
-          <div class="item-price">50 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Latte macchiato</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">70 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Cappuccino</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">70 Kč</div>
-        </div>
-        <div class="menu-item">
-          <div class="item-info">
-            <div class="item-name">Ledová káva</div>
-            <div class="item-allergens">alergeny: 7</div>
-          </div>
-          <div class="item-price">60 Kč</div>
-        </div>
-      </div>
+      <div class="menu-item-list" id="list-kavy"></div>
     </section>
 
     <div style="text-align: center; margin-top: 2rem;">
@@ -1188,122 +721,266 @@
     <img class="modal-content" id="modalImg">
   </div>
 
-  <!-- Admin Modal pro nastavení dnešních polévek -->
-  <div class="modal" id="adminSoupModal">
+  <!-- Admin Modal pro správu všech položek -->
+  <div class="modal" id="adminModal">
     <div class="admin-modal-card">
-      <h3 style="color: var(--primary-color); font-family: var(--font-moto); margin-bottom: 0.5rem; text-align: center;">⚙️ Výběr dnešních polévek</h3>
-      <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 1rem; text-align: center;">Zaškrtněte polévky, které dnes vaříte:</p>
+      <h3 style="color: var(--primary-color); font-family: var(--font-moto); margin-bottom: 0.3rem; text-align: center; font-size: 1.3rem;">⚙️ Správa nabídky baru</h3>
+      <p style="font-size: 0.8rem; color: #ccc; text-align: center;">Zaškrtnuté položky jsou zobrazeny zákazníkům. Odškrtnutím položku skryjete.</p>
       
-      <div id="adminSoupList">
-        <!-- Zde se dynamicky vygenerují zaškrtávací políčka -->
+      <div class="admin-scroll-area" id="adminItemsContainer">
+        <!-- Dynamicky generované kategorie a položky -->
       </div>
 
-      <button class="admin-btn" onclick="saveSoupSelection()">💾 Uložit dnešní polévky</button>
-      <button class="admin-btn" style="background: #555;" onclick="closeAdminModal()">Zavřít</button>
+      <div class="admin-footer-actions">
+        <button class="admin-btn" onclick="saveMenuVisibility()">💾 Uložit změny</button>
+        <button class="admin-btn" style="background: #444; width: auto; padding: 0.7rem 1.2rem;" onclick="closeAdminModal()">Zavřít</button>
+      </div>
     </div>
   </div>
 
   <footer>
     <p>© 2026 Moto Segy Bar — Poctivá domácí kuchyně & Hospoda. Všechna práva vyhrazena.</p>
     <div>
-      <button class="admin-trigger-btn" onclick="openAdminModal()">🔒 Správa polévek (pro obsluhu)</button>
+      <button class="admin-trigger-btn" onclick="openAdminModal()">🔒 Správa nabídky (pro obsluhu)</button>
     </div>
   </footer>
 
   <script>
-    // Seznam všech možných polévek Baru
-    const ALL_SOUPS = [
-      { id: 'drstkova', name: 'Dršťková', price: '80 Kč', allergens: 'alergeny: 1, 9' },
-      { id: 'kyselice', name: 'Valašská kyselice', price: '80 Kč', allergens: 'alergeny: 1, 7' },
-      { id: 'kulajda', name: 'Kulajda', price: '80 Kč', allergens: 'alergeny: 1, 3, 7' },
-      { id: 'cockova', name: 'Čočková s klobáskou', price: '60 Kč', allergens: 'alergeny: 1' },
-      { id: 'fazolova', name: 'Fazolová s uzeným', price: '60 Kč', allergens: 'alergeny: 1' },
-      { id: 'gulasova', name: 'Gulášová', price: '80 Kč', allergens: 'alergeny: 1' }
+    // Kompletní databáze všech položek jídelního a nápojového lístku
+    const MENU_DATA = [
+      // POLÉVKY
+      { id: 'p_drstkova', category: 'polevky', type: 'list', name: 'Dršťková', allergens: 'alergeny: 1, 9', price: '80 Kč', defaultActive: true },
+      { id: 'p_kyselice', category: 'polevky', type: 'list', name: 'Valašská kyselice', allergens: 'alergeny: 1, 7', price: '80 Kč', defaultActive: true },
+      { id: 'p_kulajda', category: 'polevky', type: 'list', name: 'Kulajda', allergens: 'alergeny: 1, 3, 7', price: '80 Kč', defaultActive: false },
+      { id: 'p_cockova', category: 'polevky', type: 'list', name: 'Čočková s klobáskou', allergens: 'alergeny: 1', price: '60 Kč', defaultActive: false },
+      { id: 'p_fazolova', category: 'polevky', type: 'list', name: 'Fazolová s uzeným', allergens: 'alergeny: 1', price: '60 Kč', defaultActive: false },
+      { id: 'p_gulasova', category: 'polevky', type: 'list', name: 'Gulášová', allergens: 'alergeny: 1', price: '80 Kč', defaultActive: false },
+
+      // STÁLÁ NABÍDKA (s obrázky)
+      { id: 's_rizecky', category: 'stala-nabidka', type: 'card', img: 'mini_kuřecí_řízečky.jpg', name: 'Kuřecí mini řízečky s hranolkami', allergens: 'alergeny: 1, 3, 7', price: '175 Kč', defaultActive: true },
+      { id: 's_smazak', category: 'stala-nabidka', type: 'card', img: 'smazeny_syr.jpg', name: 'Smažený sýr s hranolkami', allergens: 'alergeny: 1, 3, 7', price: '170 Kč', defaultActive: true },
+      { id: 's_koleno', category: 'stala-nabidka', type: 'card', img: 'grilovane_koleno.jpg', name: 'Grilované koleno', allergens: 'alergeny: 1, 10', price: '270 Kč', defaultActive: true },
+      { id: 's_zebra', category: 'stala-nabidka', type: 'card', img: 'grilovane_žebra.jpg', name: 'Grilovaná žebra', allergens: 'alergeny: 1, 6, 10', price: '250 Kč', defaultActive: true },
+      { id: 's_topinky', category: 'stala-nabidka', type: 'card', img: 'topinky_s_tvaruzkovym_tatarakem.jpg', name: 'Topinky s tvarůžkovým tatarákem', allergens: 'alergeny: 1, 3, 7', price: '90 Kč', defaultActive: true },
+      { id: 's_burger_klasik', category: 'stala-nabidka', type: 'card', img: 'hamburger_klasik.jpg', name: 'Hamburger Klasik v domácí housce', allergens: 'alergeny v housce: lepek, vejce, mléko', price: '145 Kč', defaultActive: true },
+      { id: 's_burger_slanina', category: 'stala-nabidka', type: 'card', img: 'hamburger_se_slaninou.jpg', name: 'Hamburger se slaninou v domácí housce', allergens: 'alergeny v housce: lepek, vejce, mléko', price: '155 Kč', defaultActive: true },
+      { id: 's_cheese_klasik', category: 'stala-nabidka', type: 'card', img: 'cheeseburger_klasik.jpg', name: 'Cheeseburger Klasik v domácí housce', allergens: 'alergeny v housce: lepek, vejce, mléko', price: '175 Kč', defaultActive: true },
+      { id: 's_cheese_slanina', category: 'stala-nabidka', type: 'card', img: 'cheeseburger_se_slaninou.jpg', name: 'Cheeseburger se slaninou v domácí housce', allergens: 'alergeny v housce: lepek, vejce, mléko', price: '185 Kč', defaultActive: true },
+      // STÁLÁ NABÍDKA (bez obrázku)
+      { id: 's_klobasa', category: 'stala-nabidka', type: 'list', name: 'Grilovaná klobása', allergens: 'alergeny: 1, 10', price: '130 Kč', defaultActive: true },
+
+      // OMÁČKY
+      { id: 'o_tatarka', category: 'omacky', type: 'list', name: 'Tatarka', allergens: 'alergeny: 3, 10', price: '10 Kč', defaultActive: true },
+      { id: 'o_kecup', category: 'omacky', type: 'list', name: 'Kečup', allergens: 'alergeny: bez alergenů', price: '10 Kč', defaultActive: true },
+      { id: 'o_peprovy', category: 'omacky', type: 'list', name: 'Pepřový', allergens: 'alergeny: 7', price: '10 Kč', defaultActive: true },
+      { id: 'o_cesnekovy', category: 'omacky', type: 'list', name: 'Česnekový', allergens: 'alergeny: 7', price: '10 Kč', defaultActive: true },
+      { id: 'o_pikantni', category: 'omacky', type: 'list', name: 'Pikantní', allergens: 'alergeny: 7', price: '10 Kč', defaultActive: true },
+      { id: 'o_francouzsky', category: 'omacky', type: 'list', name: 'Francouzský', allergens: 'alergeny: 3, 7', price: '10 Kč', defaultActive: true },
+
+      // SPECIALITY
+      { id: 'sp_tvaruzky', category: 'speciality', type: 'card', img: 'Tvarůžky.jpg', name: 'Zapečené tvarůžky v těstě', allergens: 'alergeny: 1, 7', price: '149 Kč', defaultActive: true },
+      { id: 'sp_tvaruzky_olivy', category: 'speciality', type: 'card', img: 'Tvarůžky-olivove.jpg', name: 'Zapečené tvarůžky s olivami a cibulkou', allergens: 'alergeny: 1, 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_tvaruzky_slanina', category: 'speciality', type: 'card', img: 'Tvarůžky-slaninove.jpg', name: 'Zapečené tvarůžky se slaninou a cibulkou', allergens: 'alergeny: 1, 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_herm_klasik', category: 'speciality', type: 'card', img: 'Klasik.jpg', name: 'Zapečený hermelín Klasik', allergens: 'alergeny: 7', price: '149 Kč', defaultActive: true },
+      { id: 'sp_herm_cibulak', category: 'speciality', type: 'card', img: 'Cibulak.jpg', name: 'Zapečený hermelín Cibulák', allergens: 'alergeny: 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_herm_pikant', category: 'speciality', type: 'card', img: 'Pikant.jpg', name: 'Zapečený hermelín Pikant', allergens: 'alergeny: 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_herm_peprak', category: 'speciality', type: 'card', img: 'Pepřák.jpg', name: 'Zapečený hermelín Pepřák', allergens: 'alergeny: 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_herm_rajcatovy', category: 'speciality', type: 'card', img: 'Rajčatový.jpg', name: 'Zapečený hermelín Rajčátkový', allergens: 'alergeny: 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_herm_olivovy', category: 'speciality', type: 'card', img: 'Olivový.jpg', name: 'Zapečený hermelín Olivový', allergens: 'alergeny: 7', price: '159 Kč', defaultActive: true },
+      { id: 'sp_trh_klasik', category: 'speciality', type: 'card', img: 'T.klasik.jpg', name: 'Trhané vepřové Klasik', allergens: 'alergeny: 1, 7', price: '129 Kč', defaultActive: true },
+      { id: 'sp_trh_pepr', category: 'speciality', type: 'card', img: 'T.zelený pepř.jpg', name: 'Trhané vepřové se zeleným pepřem', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_slanina', category: 'speciality', type: 'card', img: 'T.slaninový.jpg', name: 'Zapečené trhané vepřové slaninové', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_cibule', category: 'speciality', type: 'card', img: 'T.cibulový.jpg', name: 'Zapečené trhané vepřové cibulové', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_olivy', category: 'speciality', type: 'card', img: 'T.olivový.jpg', name: 'Zapečené trhané vepřové olivové', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_pikant', category: 'speciality', type: 'card', img: 'T.pikant.jpg', name: 'Zapečené trhané vepřové pikant', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_rajce', category: 'speciality', type: 'card', img: 'T.rajčátkový.jpg', name: 'Trhané vepřové rajčátkové (se sušenými rajčaty)', allergens: 'alergeny: 1, 7', price: '139 Kč', defaultActive: true },
+      { id: 'sp_trh_cheddar', category: 'speciality', type: 'card', img: 'T.cheddar.jpg', name: 'Trhané vepřové cheddar', allergens: 'alergeny: 1, 7', price: '149 Kč', defaultActive: true },
+      { id: 'sp_trh_niva', category: 'speciality', type: 'card', img: 'T.niva.jpg', name: 'Trhané vepřové niva', allergens: 'alergeny: 1, 7', price: '149 Kč', defaultActive: true },
+      { id: 'sp_salat', category: 'speciality', type: 'card', img: 'salat.jpg', name: 'Zeleninový salát (150 g)', allergens: 'svěží a křupavý', price: '70 Kč', defaultActive: true },
+      { id: 'sp_hranolky_m', category: 'speciality', type: 'card', img: 'hranolky-male.jpg', name: 'Hranolky malé (100 g)', allergens: 'horkovzdušné, bez smažení v oleji', price: '30 Kč', defaultActive: true },
+      { id: 'sp_hranolky_v', category: 'speciality', type: 'card', img: 'hranolky-velke.jpg', name: 'Hranolky velké (200 g)', allergens: 'horkovzdušné, bez smažení v oleji', price: '60 Kč', defaultActive: true },
+
+      // ZÁKUSKY
+      { id: 'z_vetrnik_klasik', category: 'zakusky', type: 'card', img: 'větrník klasik.jpg', name: 'Klasický větrník (Vanilka & Karamel)', allergens: 'alergeny: 1, 3, 7', price: '70 Kč', defaultActive: true },
+      { id: 'z_vetrnik_pistacie', category: 'zakusky', type: 'card', img: 'větrník pistacie.jpg', name: 'Pistáciový větrník', allergens: 'alergeny: 1, 3, 7, 8', price: '75 Kč', defaultActive: true },
+
+      // NEALKO NÁPOJE
+      { id: 'n_kofola', category: 'nealko', type: 'list', name: 'Kofola', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_malinovka', category: 'nealko', type: 'list', name: 'Malinovka', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_pepsi', category: 'nealko', type: 'list', name: 'Pepsi', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_pepsi_zero', category: 'nealko', type: 'list', name: 'Pepsi Zero', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_mattoni_imuno', category: 'nealko', type: 'list', name: 'Mattoni Imuno', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_mattoni_mojito', category: 'nealko', type: 'list', name: 'Mattoni Mojito', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_birell_ipa', category: 'nealko', type: 'list', name: 'Birell stylu IPA', allergens: 'alergeny: 1', price: '45 Kč', defaultActive: true },
+      { id: 'n_litovel_citron', category: 'nealko', type: 'list', name: 'Litovel černý citrón', allergens: 'alergeny: 1', price: '45 Kč', defaultActive: true },
+      { id: 'n_birell_visen', category: 'nealko', type: 'list', name: 'Birell Višeň & Ostružina', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_birell_pomelo', category: 'nealko', type: 'list', name: 'Birell Pomelo & Grep', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_voda', category: 'nealko', type: 'list', name: 'Voda (perlivá / neperlivá)', allergens: 'alergeny: bez alergenů', price: '30 Kč', defaultActive: true },
+      { id: 'n_ledove_caje', category: 'nealko', type: 'list', name: 'Ledové čaje', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+      { id: 'n_tonic', category: 'nealko', type: 'list', name: 'Tonic', allergens: 'alergeny: bez alergenů', price: '45 Kč', defaultActive: true },
+
+      // KÁVY
+      { id: 'k_espresso', category: 'kavy', type: 'list', name: 'Espresso', allergens: 'alergeny: bez alergenů', price: '50 Kč', defaultActive: true },
+      { id: 'k_lungo', category: 'kavy', type: 'list', name: 'Lungo', allergens: 'alergeny: bez alergenů', price: '50 Kč', defaultActive: true },
+      { id: 'k_americano', category: 'kavy', type: 'list', name: 'Americano', allergens: 'alergeny: bez alergenů', price: '50 Kč', defaultActive: true },
+      { id: 'k_latte', category: 'kavy', type: 'list', name: 'Latte macchiato', allergens: 'alergeny: 7', price: '70 Kč', defaultActive: true },
+      { id: 'k_cappuccino', category: 'kavy', type: 'list', name: 'Cappuccino', allergens: 'alergeny: 7', price: '70 Kč', defaultActive: true },
+      { id: 'k_ledova', category: 'kavy', type: 'list', name: 'Ledová káva', allergens: 'alergeny: 7', price: '60 Kč', defaultActive: true }
     ];
 
-    // Načtení vybraných polévek z paměti nebo výchozí nastavení (první 2 polévky)
-    function getSelectedSoupIds() {
-      const saved = localStorage.getItem('segy_today_soups');
+    const CATEGORY_NAMES = {
+      'polevky': '🥣 Polévky',
+      'stala-nabidka': '🍔 Stálá nabídka',
+      'omacky': '🫙 Omáčky',
+      'speciality': '🔥 Speciality',
+      'zakusky': '🍰 Zákusky',
+      'nealko': '🥤 Nealko nápoje',
+      'kavy': '☕ Kávy'
+    };
+
+    // Získání seznamu aktivních ID položek
+    function getActiveItemIds() {
+      const saved = localStorage.getItem('segy_active_menu_items');
       if (saved) {
         return JSON.parse(saved);
       }
-      return ['drstkova', 'kyselice']; // Výchozí stav
+      return MENU_DATA.filter(item => item.defaultActive).map(item => item.id);
     }
 
-    // Vykreslení polévek na webu pro zákazníky
-    function renderSoups() {
-      const selectedIds = getSelectedSoupIds();
-      const container = document.getElementById('soupsDisplayList');
-      container.innerHTML = '';
+    // Vykreslení celého menu pro zákazníky
+    function renderFullMenu() {
+      const activeIds = getActiveItemIds();
 
-      const activeSoups = ALL_SOUPS.filter(soup => selectedIds.includes(soup.id));
+      // Vyčištění kontejnerů
+      document.getElementById('list-polevky').innerHTML = '';
+      document.getElementById('grid-stala-nabidka').innerHTML = '';
+      document.getElementById('list-stala-nabidka').innerHTML = '';
+      document.getElementById('list-omacky').innerHTML = '';
+      document.getElementById('grid-speciality').innerHTML = '';
+      document.getElementById('grid-zakusky').innerHTML = '';
+      document.getElementById('list-nealko').innerHTML = '';
+      document.getElementById('list-kavy').innerHTML = '';
 
-      if (activeSoups.length === 0) {
-        container.innerHTML = '<div style="color: #000; font-weight: 600; text-align: center;">Dnes nemáme v nabídce žádnou polévku.</div>';
-        return;
-      }
+      // Počítadla viditelných položek pro každou kategorii
+      const counts = {
+        'polevky': 0, 'stala-nabidka': 0, 'omacky': 0,
+        'speciality': 0, 'zakusky': 0, 'nealko': 0, 'kavy': 0
+      };
 
-      activeSoups.forEach(soup => {
-        const itemHtml = `
-          <div class="menu-item">
-            <div class="item-info">
-              <div class="item-name">${soup.name}</div>
-              <div class="item-allergens">${soup.allergens}</div>
+      MENU_DATA.forEach(item => {
+        if (!activeIds.includes(item.id)) return;
+        counts[item.category]++;
+
+        if (item.type === 'card') {
+          const cardHtml = `
+            <div class="speciality-card">
+              <img src="${item.img}" alt="${item.name}" class="speciality-thumb" onclick="openModal(this.src)">
+              <div style="margin-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 0.5rem;">
+                <div style="text-align: left;">
+                  <span style="font-weight: 800; color: #000000; display: block;">${item.name}</span>
+                  <span style="font-size: 0.75rem; color: #000000; font-style: italic; font-weight: 600;">${item.allergens}</span>
+                </div>
+                <span class="item-price">${item.price}</span>
+              </div>
             </div>
-            <div class="item-price">${soup.price}</div>
-          </div>
-        `;
-        container.innerHTML += itemHtml;
+          `;
+          document.getElementById(`grid-${item.category}`).innerHTML += cardHtml;
+        } else {
+          const listHtml = `
+            <div class="menu-item">
+              <div class="item-info">
+                <div class="item-name">${item.name}</div>
+                <div class="item-allergens">${item.allergens}</div>
+              </div>
+              <div class="item-price">${item.price}</div>
+            </div>
+          `;
+          document.getElementById(`list-${item.category}`).innerHTML += listHtml;
+        }
+      });
+
+      // Pokud je některá kategorie prázdná, vypíšeme info zprávu
+      Object.keys(counts).forEach(cat => {
+        if (counts[cat] === 0) {
+          const targetEl = document.getElementById(`list-${cat}`) || document.getElementById(`grid-${cat}`);
+          if (targetEl) {
+            targetEl.innerHTML = '<div class="empty-category-msg">Momentálně není v této kategorii žádná položka v nabídce.</div>';
+          }
+        }
       });
     }
 
-    // Otevření administrace polévek (chráněno heslem)
+    // Otevření Admin okna
     function openAdminModal() {
-      const pass = prompt("Zadejte heslo pro správy baru:");
-      if (pass === "Segybar_2810") { // Výchozí heslo je 1234
-        const selectedIds = getSelectedSoupIds();
-        const listDiv = document.getElementById('adminSoupList');
-        listDiv.innerHTML = '';
+      const pass = prompt("Zadejte heslo pro správu baru:");
+      if (pass === "1234") {
+        const activeIds = getActiveItemIds();
+        const container = document.getElementById('adminItemsContainer');
+        container.innerHTML = '';
 
-        ALL_SOUPS.forEach(soup => {
-          const isChecked = selectedIds.includes(soup.id) ? 'checked' : '';
-          const rowHtml = `
-            <div class="admin-soup-row">
-              <label style="cursor:pointer; display:flex; align-items:center; gap:0.5rem;">
-                <input type="checkbox" value="${soup.id}" ${isChecked} style="width:18px; height:18px;">
-                <span>${soup.name} (${soup.price})</span>
-              </label>
-            </div>
+        Object.keys(CATEGORY_NAMES).forEach(catKey => {
+          const catItems = MENU_DATA.filter(i => i.category === catKey);
+          
+          let groupHtml = `
+            <div class="admin-cat-group" data-cat="${catKey}">
+              <div class="admin-cat-header">
+                <span class="admin-cat-title">${CATEGORY_NAMES[catKey]}</span>
+                <div class="admin-quick-btns">
+                  <button type="button" onclick="toggleCategory('${catKey}', true)">Vše</button>
+                  <button type="button" onclick="toggleCategory('${catKey}', false)">Nic</button>
+                </div>
+              </div>
           `;
-          listDiv.innerHTML += rowHtml;
+
+          catItems.forEach(item => {
+            const isChecked = activeIds.includes(item.id) ? 'checked' : '';
+            groupHtml += `
+              <div class="admin-item-row">
+                <label style="cursor:pointer; display:flex; align-items:center; gap:0.6rem; width:100%;">
+                  <input type="checkbox" class="menu-cb" data-cat="${catKey}" value="${item.id}" ${isChecked} style="width:18px; height:18px; accent-color: var(--primary-color);">
+                  <span style="flex-grow:1; font-size:0.9rem;">${item.name}</span>
+                  <span style="color:#aaa; font-size:0.85rem; font-weight:700;">${item.price}</span>
+                </label>
+              </div>
+            `;
+          });
+
+          groupHtml += `</div>`;
+          container.innerHTML += groupHtml;
         });
 
-        document.getElementById('adminSoupModal').classList.add('open');
+        document.getElementById('adminModal').classList.add('open');
       } else if (pass !== null) {
         alert("Nesprávné heslo!");
       }
     }
 
-    function closeAdminModal() {
-      document.getElementById('adminSoupModal').classList.remove('open');
+    // Hromadné zaškrtnutí/odškrtnutí celé kategorie
+    function toggleCategory(catKey, state) {
+      const checkboxes = document.querySelectorAll(`.menu-cb[data-cat="${catKey}"]`);
+      checkboxes.forEach(cb => cb.checked = state);
     }
 
-    // Uložení zaškrtnutých polévek
-    function saveSoupSelection() {
-      const checkboxes = document.querySelectorAll('#adminSoupList input[type="checkbox"]');
-      const selected = [];
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.remove('open');
+    }
+
+    // Uložení nastavení viditelnosti
+    function saveMenuVisibility() {
+      const checkboxes = document.querySelectorAll('.menu-cb');
+      const selectedIds = [];
       checkboxes.forEach(cb => {
         if (cb.checked) {
-          selected.push(cb.value);
+          selectedIds.push(cb.value);
         }
       });
-      localStorage.setItem('segy_today_soups', JSON.stringify(selected));
-      renderSoups();
+      localStorage.setItem('segy_active_menu_items', JSON.stringify(selectedIds));
+      renderFullMenu();
       closeAdminModal();
-      alert("Dnešní nabídka polévek byla uložena!");
+      alert("Nabídka jídelního lístku byla úspěšně aktualizována!");
     }
 
-    // Zbytek obsluhy menu a obrázků
+    // Obsluha navigace a obrázků
     const menuBtn = document.getElementById('menuBtn');
     const dropdownNav = document.getElementById('dropdownNav');
     menuBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownNav.classList.toggle('open'); });
@@ -1321,8 +998,8 @@
       navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href').includes(current)) { link.classList.add('active'); } });
     });
 
-    // Inicilazace polévek při prvním načtení
-    renderSoups();
+    // Vykreslení při načtení stránky
+    renderFullMenu();
   </script>
 </body>
 </html>
